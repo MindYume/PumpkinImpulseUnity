@@ -23,12 +23,24 @@ SOFTWARE.
 */
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class SoundPlayer : MonoBehaviour
 {
-    public void OnPlayButtonClicked()
+    private static AudioSource _audioSource;
+    public static AudioClip btn_hover, btn_click;
+    
+    void Start()
     {
-        SceneManager.LoadScene("GameWindow");
+        _audioSource = GetComponent<AudioSource>();
+
+        btn_hover = Resources.Load<AudioClip>("Sounds/btn_hover");
+        btn_click = Resources.Load<AudioClip>("Sounds/btn_click");
     }
+
+    public static void PlaySound(AudioClip audioClip, float volume, float pitch)
+    {
+        _audioSource.pitch = pitch;
+        _audioSource.PlayOneShot(audioClip, volume);
+    }
+
 }

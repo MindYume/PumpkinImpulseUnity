@@ -20,22 +20,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
- */
+*/
 
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class SaveText : MonoBehaviour
+public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
-    void Start()
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
-       
+        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_hover_style");
+        SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
     }
 
-    void Update()
+    public void OnPointerExit(PointerEventData pointerEventData)
     {
-        //Debug.Log("update");
+        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_style");
+    }
+
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_pressed_style");
+        SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
     }
 }
