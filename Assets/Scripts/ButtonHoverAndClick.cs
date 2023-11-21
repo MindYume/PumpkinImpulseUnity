@@ -22,26 +22,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    private Button _button;
+    private TextMeshProUGUI textMeshProUGUI;
+    void Start()
+    {
+        _button = GetComponent<Button>();
+        textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log(textMeshProUGUI.faceColor);
+    }
+
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_hover_style");
+        _button.image.sprite = Resources.Load<Sprite>("Images/button_hover_style");
         SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
+        textMeshProUGUI.faceColor = new Color32(0, 255, 0, 255);
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_style");
+        _button.image.sprite = Resources.Load<Sprite>("Images/button_style");
+        textMeshProUGUI.faceColor = new Color32(0, 200, 0, 255);
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        GetComponent<Button>().image.sprite = Resources.Load<Sprite>("Images/button_pressed_style");
+        _button.image.sprite = Resources.Load<Sprite>("Images/button_pressed_style");
         SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
     }
 }
