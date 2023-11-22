@@ -22,11 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _maxWaveText;
+    
+    void Start()
+    {
+        _maxWaveText.text = $"Max Wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+    }
+
     public void OnPlayButtonClicked()
     {
         SceneManager.LoadScene("GameWindow");

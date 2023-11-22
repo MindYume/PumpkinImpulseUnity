@@ -51,5 +51,6 @@ public class GeneralSingleton
     }
 
     public LanguageEnum Language = LanguageEnum.English;
+    public int MaxWave = 5;
  
 }

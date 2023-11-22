@@ -32,11 +32,11 @@ public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     private Button _button;
     private TextMeshProUGUI textMeshProUGUI;
+    
     void Start()
     {
         _button = GetComponent<Button>();
         textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
-        Debug.Log(textMeshProUGUI.faceColor);
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData)
