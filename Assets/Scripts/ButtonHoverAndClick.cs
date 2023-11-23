@@ -28,33 +28,94 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+    [SerializeField] private bool _changeStyle = true;
+    [SerializeField] private bool _JapaneseLanguage = false;
+    [SerializeField] private Sprite _nornalSprite;
+    [SerializeField] private Sprite _pressedSprite;
+    [SerializeField] private Sprite _hoverSprite;
     private Button _button;
-    private TextMeshProUGUI textMeshProUGUI;
+    private TextMeshProUGUI _textMeshProUGUI;
+    private bool _isPointerHover;
+    private bool _isPointerDown;
     
     void Start()
     {
         _button = GetComponent<Button>();
-        textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+        _textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void UpdateStyle()
+    {
+        if (_changeStyle)
+        {
+            if (_isPointerHover)
+            {
+                if (_isPointerDown)
+                {
+                    _button.image.sprite = _pressedSprite;
+
+                    if (GeneralSingleton.Instance.Language == LanguageEnum.Japanese || _JapaneseLanguage)
+                    {
+                        _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansBrightGreen");
+                    }
+                    else
+                    {
+                        _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansBrightGreen");
+                    }
+                }
+                else
+                {
+                    _button.image.sprite = _hoverSprite;
+                    if (GeneralSingleton.Instance.Language == LanguageEnum.Japanese || _JapaneseLanguage)
+                    {
+                        _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansBrightGreen");
+                    }
+                    else
+                    {
+                        _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansBrightGreen");
+                    }
+                }
+            }
+            else
+            {
+                _button.image.sprite = _nornalSprite;
+                if (GeneralSingleton.Instance.Language == LanguageEnum.Japanese || _JapaneseLanguage)
+                {
+                    _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+                }
+                else
+                {
+                    _textMeshProUGUI.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                }
+            }
+        }
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        _button.image.sprite = Resources.Load<Sprite>("Images/button_hover_style");
         SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
-        textMeshProUGUI.faceColor = new Color32(0, 255, 0, 255);
+        _isPointerHover = true;
+        UpdateStyle();
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        _button.image.sprite = Resources.Load<Sprite>("Images/button_style");
-        textMeshProUGUI.faceColor = new Color32(0, 200, 0, 255);
+        _isPointerHover = false;
+        UpdateStyle();
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        _button.image.sprite = Resources.Load<Sprite>("Images/button_pressed_style");
         SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
+        _isPointerDown = true;
+        UpdateStyle();
+    }
+
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        _isPointerDown = false;
+        UpdateStyle();
     }
 }

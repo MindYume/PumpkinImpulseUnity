@@ -23,16 +23,67 @@ SOFTWARE.
 */
 
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _maxWaveText;
+    [SerializeField] private TextMeshProUGUI _textMeshMaxWave;
+    [SerializeField] private TextMeshProUGUI _textMeshPlay;
+    [SerializeField] private TextMeshProUGUI _textMeshLanguage;
     
     void Start()
     {
-        _maxWaveText.text = $"Max Wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+        GeneralSingleton.Instance.onLanguageCahnged += OnLanguageCahnged;
+        //_maxWaveText.text = $"Max Wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+    }
+
+    private void OnLanguageCahnged(LanguageEnum language)
+    {
+        switch(language)
+		{
+			case LanguageEnum.English:
+                _textMeshMaxWave.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _textMeshPlay.font     = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _textMeshLanguage.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+                _textMeshMaxWave.text = $"Max Wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+				_textMeshPlay.text = "Play";
+				_textMeshLanguage.text = "Language";
+				break;
+
+            case LanguageEnum.Japanese:
+                _textMeshMaxWave.font  = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansOrange");
+                _textMeshPlay.font     = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+                _textMeshLanguage.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+
+                _textMeshMaxWave.text = $"最大ステージ: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+				_textMeshPlay.text = "プレー";
+				_textMeshLanguage.text = "言語";
+				break;
+			
+			case LanguageEnum.Russian:
+                _textMeshMaxWave.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _textMeshPlay.font     = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _textMeshLanguage.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+                _textMeshMaxWave.text = $"Макс. волна: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+                _textMeshPlay.text = "Играть";
+                _textMeshLanguage.text = "Язык";
+				break;
+
+            case LanguageEnum.Turkish:
+                _textMeshMaxWave.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _textMeshPlay.font     = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _textMeshLanguage.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+                _textMeshMaxWave.text = $"Maks. dalga: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+				_textMeshPlay.text = "Oynamak";
+				_textMeshLanguage.text = "Dil";
+				break;
+		}
     }
 
     public void OnPlayButtonClicked()

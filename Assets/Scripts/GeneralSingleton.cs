@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -50,7 +51,19 @@ public class GeneralSingleton
         }
     }
 
-    public LanguageEnum Language = LanguageEnum.English;
-    public int MaxWave = 5;
+    public Action<LanguageEnum> onLanguageCahnged;
+
+    private LanguageEnum _language = LanguageEnum.English;
+    public int MaxWave = 0;
+
+    public LanguageEnum Language
+    {
+        get => _language;
+        set
+        {
+            _language = value;
+            onLanguageCahnged?.Invoke(_language);
+        }
+    }
  
 }
