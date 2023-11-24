@@ -37,7 +37,6 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         GeneralSingleton.Instance.onLanguageCahnged += OnLanguageCahnged;
-        //_maxWaveText.text = $"Max Wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
     }
 
     private void OnLanguageCahnged(LanguageEnum language)

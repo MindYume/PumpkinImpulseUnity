@@ -31,6 +31,7 @@ using UnityEngine.UI;
 public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private bool _changeStyle = true;
+    [SerializeField] private bool _playSound = true;
     [SerializeField] private bool _JapaneseLanguage = false;
     [SerializeField] private Sprite _nornalSprite;
     [SerializeField] private Sprite _pressedSprite;
@@ -95,7 +96,10 @@ public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
+        if (_playSound)
+        {
+            SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
+        }
         _isPointerHover = true;
         UpdateStyle();
     }
@@ -108,7 +112,10 @@ public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
+        if (_playSound)
+        {
+            SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
+        }
         _isPointerDown = true;
         UpdateStyle();
     }
