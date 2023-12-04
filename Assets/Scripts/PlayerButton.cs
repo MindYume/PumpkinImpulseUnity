@@ -22,27 +22,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class SoundPlayer : MonoBehaviour
+public class PlayerButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private static AudioSource[] _audioSources;
-    public static AudioClip btn_hover, btn_click, wave, wave_end;
-    
-    void Start()
-    {
-        _audioSources = GetComponents<AudioSource>();
+    [SerializeField] private EnergyEffect _energyEffect;
+    private float _timeAfterPress = 0;
+    private bool _isPressed = false;
 
-        btn_hover = Resources.Load<AudioClip>("Sounds/btn_hover");
-        btn_click = Resources.Load<AudioClip>("Sounds/btn_click");
-        wave = Resources.Load<AudioClip>("Sounds/wave");
-        wave_end = Resources.Load<AudioClip>("Sounds/wave_end");
+    // Update is called once per frame
+    void Update()
+    {
+        if (_isPressed)
+        {
+            _timeAfterPress += Time.deltaTime * 2;
+            _energyEffect.EnergyValue = Mathf.Clamp(_timeAfterPress, 0, 1);
+        }
+        else
+        {
+            _timeAfterPress = 0;
+            _energyEffect.EnergyValue = 0;
+        }
     }
 
-    public static void PlaySound(int audioSourcesIndex, AudioClip audioClip, float volume, float pitch)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
-        _audioSources[audioSourcesIndex].pitch = pitch;
-        _audioSources[audioSourcesIndex].PlayOneShot(audioClip, volume);
+        _isPressed = true;
     }
 
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        _isPressed = false;
+    }
 }

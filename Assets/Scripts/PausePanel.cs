@@ -23,26 +23,18 @@ SOFTWARE.
 */
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class SoundPlayer : MonoBehaviour
+public class PausePanel : MonoBehaviour
 {
-    private static AudioSource[] _audioSources;
-    public static AudioClip btn_hover, btn_click, wave, wave_end;
-    
-    void Start()
+    public void SetTimeScale(float scale)
     {
-        _audioSources = GetComponents<AudioSource>();
-
-        btn_hover = Resources.Load<AudioClip>("Sounds/btn_hover");
-        btn_click = Resources.Load<AudioClip>("Sounds/btn_click");
-        wave = Resources.Load<AudioClip>("Sounds/wave");
-        wave_end = Resources.Load<AudioClip>("Sounds/wave_end");
+        Time.timeScale = scale;
     }
 
-    public static void PlaySound(int audioSourcesIndex, AudioClip audioClip, float volume, float pitch)
+    public void OnMainMenuButtonClicked(float scale)
     {
-        _audioSources[audioSourcesIndex].pitch = pitch;
-        _audioSources[audioSourcesIndex].PlayOneShot(audioClip, volume);
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
-
 }

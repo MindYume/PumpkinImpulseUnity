@@ -24,13 +24,14 @@ SOFTWARE.
 
 using UnityEngine;
 
-public class EneryEffect : MonoBehaviour
+public class EnergyEffect : MonoBehaviour
 {
     [SerializeField] private Color _color;
+    [SerializeField] public bool _playSound;
     private Transform[] _circleTransforms;
     private SpriteRenderer[] _circleSprites;
 
-    private float _energyValue = 1;
+    private float _energyValue = 0;
 
     void Start()
     {
@@ -53,10 +54,11 @@ public class EneryEffect : MonoBehaviour
                 _circleTransforms[i].localScale += Vector3.one;
                 _circleSprites[i].color = new Color(_color.r, _color.g, _color.b, 0);
                 
-                /* if (playSound)
+                if (_playSound)
                 {
-                    _generalSingleton.PlaySound("wave", (-50 + _circles[i].Scale.x  * _energyValue * 60), 1);
-                } */
+                    //_generalSingleton.PlaySound("wave", (-50 + _circles[i].Scale.x  * _energyValue * 60), 1);
+                    SoundPlayer.PlaySound(0, SoundPlayer.wave, _energyValue*2, 1);
+                } 
             }
         }
     }

@@ -98,7 +98,7 @@ public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (_playSound)
         {
-            SoundPlayer.PlaySound(SoundPlayer.btn_hover, 1, 1);
+            SoundPlayer.PlaySound(0, SoundPlayer.btn_hover, 1, 1);
         }
         _isPointerHover = true;
         UpdateStyle();
@@ -114,7 +114,7 @@ public class ButtonHoverAndClick : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (_playSound)
         {
-            SoundPlayer.PlaySound(SoundPlayer.btn_click, 0.5f, 1);
+            SoundPlayer.PlaySound(0, SoundPlayer.btn_click, 0.5f, 1);
         }
         _isPointerDown = true;
         UpdateStyle();

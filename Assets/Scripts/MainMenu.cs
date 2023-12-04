@@ -23,10 +23,8 @@ SOFTWARE.
 */
 
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -37,6 +35,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         GeneralSingleton.Instance.onLanguageCahnged += OnLanguageCahnged;
+        OnLanguageCahnged(GeneralSingleton.Instance.Language);
     }
 
     private void OnLanguageCahnged(LanguageEnum language)
