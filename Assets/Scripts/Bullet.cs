@@ -27,6 +27,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private HitEffect _hitEffectPrefab;
     private LineRenderer _tail;
     private Rigidbody2D _rigidbody2D;
     private float _power;
@@ -75,4 +76,20 @@ public class Bullet : MonoBehaviour
             }
         }
 	}
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+		{
+            other.gameObject.SendMessage("TakeDamage", _power * 100);
+            SoundPlayer.PlaySound(2, SoundPlayer.hit, _power, 2);
+
+            // Spawn bullet effect
+            HitEffect hitEffectInstance = Instantiate(_hitEffectPrefab, (transform.position + other.transform.position) / 2 - new Vector3(0,0,1), Quaternion.identity);
+            hitEffectInstance.transform.localScale = Vector3.one * _power;
+            hitEffectInstance.Color = _tail.endColor;
+
+            Destroy(gameObject);
+		}
+    }
 }

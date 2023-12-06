@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -38,6 +37,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GeneralSingleton.Instance.PlayerInstance = this;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _arrowTransform = transform.Find("Arrow").transform;
         _energyEffect = GetComponentInChildren<EnergyEffect>();
@@ -77,6 +77,12 @@ public class Player : MonoBehaviour
                 _sprite.flipX = false;
                 _sprite.transform.localPosition = new Vector2(0.04f, -0.01f);
             }
+        }
+
+        if (transform.localPosition.x < -3 || transform.localPosition.x > 3 || transform.localPosition.y < -3 || transform.localPosition.y > 3)
+        {
+            Debug.Log("Player is out of border");
+            transform.localPosition = Vector3.zero;
         }
     }
 

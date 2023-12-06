@@ -23,10 +23,6 @@ SOFTWARE.
 */
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public enum LanguageEnum
 {
@@ -51,10 +47,11 @@ public class GeneralSingleton
         }
     }
 
-    public Action<LanguageEnum> onLanguageCahnged;
-
+    private Player _player;
     private LanguageEnum _language = LanguageEnum.English;
     public int MaxWave = 0;
+
+    public Action<LanguageEnum> onLanguageCahnged;
 
     public LanguageEnum Language
     {
@@ -64,6 +61,12 @@ public class GeneralSingleton
             _language = value;
             onLanguageCahnged?.Invoke(_language);
         }
+    }
+
+    public Player PlayerInstance
+    {
+        set => _player = value;
+        get => _player;
     }
  
 }

@@ -24,26 +24,39 @@ SOFTWARE.
 
 using UnityEngine;
 
-public class SoundPlayer : MonoBehaviour
+public class HitEffect : MonoBehaviour
 {
-    private static AudioSource[] _audioSources;
-    public static AudioClip btn_hover, btn_click, wave, wave_end, hit;
-    
+    public Color Color;
+    private SpriteRenderer[] _spriteFrames;
+    private int _frameNumber;
+    private float _time = 0;
+
+    // Start is called before the first frame update
     void Start()
     {
-        _audioSources = GetComponents<AudioSource>();
-
-        btn_hover = Resources.Load<AudioClip>("Sounds/btn_hover");
-        btn_click = Resources.Load<AudioClip>("Sounds/btn_click");
-        wave = Resources.Load<AudioClip>("Sounds/wave");
-        wave_end = Resources.Load<AudioClip>("Sounds/wave_end");
-        hit = Resources.Load<AudioClip>("Sounds/hit");
+        _spriteFrames = GetComponentsInChildren<SpriteRenderer>();
+        _frameNumber = (int)UnityEngine.Random.Range(0, 2.99f);
+        _spriteFrames[_frameNumber].enabled = true;
     }
 
-    public static void PlaySound(int audioSourcesIndex, AudioClip audioClip, float volume, float pitch)
+    // Update is called once per frame
+    void Update()
     {
-        _audioSources[audioSourcesIndex].pitch = pitch;
-        _audioSources[audioSourcesIndex].PlayOneShot(audioClip, volume);
-    }
+        _time += Time.deltaTime;
 
+        _spriteFrames[_frameNumber].color = Color;
+        _spriteFrames[_frameNumber+3].color = Color;
+
+        if (_time > 0.075f)
+        {
+            _spriteFrames[_frameNumber].enabled = false;
+            _spriteFrames[_frameNumber+3].enabled = false;
+        }
+
+        if (_time > 0.15f)
+        {
+            Destroy(gameObject);
+        }
+        
+    }
 }
