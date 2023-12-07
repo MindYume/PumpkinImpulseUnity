@@ -22,51 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public enum LanguageEnum
+public class RestartPanel : MonoBehaviour
 {
-    English,
-    Japanese,
-    Russian,
-    Turkish
-}
-public class GeneralSingleton
-{
-    private static GeneralSingleton _instance;
-    public static GeneralSingleton Instance
+    public void Show()
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new GeneralSingleton();
-            }
-
-            return _instance;
-        }
+        gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
-    private Player _player;
-    private LanguageEnum _language = LanguageEnum.English;
-    public int MaxWave = 0;
-
-    public Action<LanguageEnum> onLanguageChanged;
-
-    public LanguageEnum Language
+    public void OnMenuButtonPressed()
     {
-        get => _language;
-        set
-        {
-            _language = value;
-            onLanguageChanged?.Invoke(_language);
-        }
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
 
-    public Player PlayerInstance
+    public void OnAgainButtonPressed()
     {
-        set => _player = value;
-        get => _player;
+        Time.timeScale = 1;
+        SceneManager.LoadScene("GameWindow");
     }
- 
 }

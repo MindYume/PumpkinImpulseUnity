@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
     
     void Start()
     {
-        GeneralSingleton.Instance.onLanguageCahnged += OnLanguageCahnged;
+        GeneralSingleton.Instance.onLanguageChanged += OnLanguageCahnged;
         OnLanguageCahnged(GeneralSingleton.Instance.Language);
     }
 

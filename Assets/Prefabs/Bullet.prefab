@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3083714149716323926}
   - component: {fileID: 2420962257973176563}
   - component: {fileID: 4506741543448602721}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 274414354788103114}
   - component: {fileID: 8058223094360440244}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1591820215606415416}
   - component: {fileID: 4730226356607449351}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Circle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8471265789330861119}
   - component: {fileID: 4384968260764911475}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Circle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

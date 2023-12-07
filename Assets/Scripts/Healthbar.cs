@@ -27,11 +27,27 @@ using UnityEngine;
 public class Healthbar : MonoBehaviour
 {
     [SerializeField] private RectTransform _hearts;
-    public int Amount
+
+    void Start()
+    {
+        Player.onHealthChanged += onPlayerHealthChanged;
+    }
+
+    public float Amount
     {
         set
         {
             _hearts.sizeDelta = new Vector2(48 * value, 42);
         }
+    }
+
+    public void onPlayerHealthChanged(float newHealthValue)
+    {
+        Amount = newHealthValue;
+    }
+
+    public void OnDestroy()
+    {
+        Player.onHealthChanged -= onPlayerHealthChanged;
     }
 }

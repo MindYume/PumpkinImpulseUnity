@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Palyer
   - Enemy
   layers:
   - Default
@@ -14,9 +13,9 @@ TagManager:
   - Water
   - UI
   - Player
-  - PlayerBullet
   - Enemy
-  - EnemyBullet
+  - BulletPlayer
+  - BulletEnemy
   - Wall
   - 
   - 

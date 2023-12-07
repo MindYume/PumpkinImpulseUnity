@@ -22,7 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -30,15 +33,26 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Transform _arrowTransform;
     private float _rotationDirection = 7.5f * Mathf.Rad2Deg;
+    private float _health = 3;
     private float _bulletPower = 0;
     private EnergyEffect _energyEffect;
+    private Animator _animator;
     private SpriteRenderer _sprite;
+    private bool _isInvinvible = false;
+    private float _invincibilityDuration = 1;
+    private float _invincibilityTime = 0;
+
+    public bool IsInvinvible => _isInvinvible;
+
+    static public Action<float> onHealthChanged;
+    [SerializeField] public UnityEvent onDead;
 
     // Start is called before the first frame update
     void Start()
     {
         GeneralSingleton.Instance.PlayerInstance = this;
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _animator = GetComponentInChildren<Animator>();
         _arrowTransform = transform.Find("Arrow").transform;
         _energyEffect = GetComponentInChildren<EnergyEffect>();
         _sprite = transform.Find("WitchSprite").GetComponent<SpriteRenderer>();
@@ -84,6 +98,17 @@ public class Player : MonoBehaviour
             Debug.Log("Player is out of border");
             transform.localPosition = Vector3.zero;
         }
+
+        if (_isInvinvible)
+        {
+            _invincibilityTime += Time.deltaTime;
+            if (_invincibilityTime >= _invincibilityDuration)
+            {
+                _isInvinvible = false;
+                _animator.SetLayerWeight(1, 0);
+                _invincibilityTime = 0;
+            }
+        }
     }
 
     //private void SpawnBullet(Vector2 position, float direction, float power)
@@ -95,7 +120,38 @@ public class Player : MonoBehaviour
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * _bulletPower * 4.5f;
         bulletInstance.SetPower(_bulletPower);
 
-        //_generalSingleton.PlaySound("wave_end", (-10 + _bulletPower * 15), (0.75f / _bulletPower));
         SoundPlayer.PlaySound(1, SoundPlayer.wave_end, _bulletPower, (0.75f / _bulletPower));
+    }
+
+    public void TakeDamage()
+    {
+        if (!_isInvinvible)
+        {
+            _health -= 1;
+            onHealthChanged.Invoke(_health);
+
+            if (_health <= 0)
+            {
+                onDead.Invoke();
+                SoundPlayer.PlaySound(4, SoundPlayer.game_over, 0.75f, 1);
+            }
+
+            _isInvinvible = true;
+            _animator.SetLayerWeight(1, 1);
+
+            System.Random rand = new System.Random();
+            switch(rand.Next(0,3))
+            {
+                case 0:
+                    SoundPlayer.PlaySound(3, SoundPlayer.take_damage1, 0.875f, 1.1f);
+                    break;
+                case 1:
+                    SoundPlayer.PlaySound(3, SoundPlayer.take_damage2, 0.875f, 1.1f);
+                    break;
+                case 2:
+                    SoundPlayer.PlaySound(3, SoundPlayer.take_damage3, 0.75f, 1.1f);
+                    break;
+            } 
+        }
     }
 }

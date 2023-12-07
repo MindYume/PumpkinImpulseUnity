@@ -37,6 +37,9 @@ public class HitEffect : MonoBehaviour
         _spriteFrames = GetComponentsInChildren<SpriteRenderer>();
         _frameNumber = (int)UnityEngine.Random.Range(0, 2.99f);
         _spriteFrames[_frameNumber].enabled = true;
+
+        _spriteFrames[_frameNumber].color = Color;
+        _spriteFrames[_frameNumber+3].color = Color;
     }
 
     // Update is called once per frame
@@ -44,13 +47,11 @@ public class HitEffect : MonoBehaviour
     {
         _time += Time.deltaTime;
 
-        _spriteFrames[_frameNumber].color = Color;
-        _spriteFrames[_frameNumber+3].color = Color;
 
-        if (_time > 0.075f)
+        if (_time > 0.075f && _spriteFrames[_frameNumber].enabled)
         {
             _spriteFrames[_frameNumber].enabled = false;
-            _spriteFrames[_frameNumber+3].enabled = false;
+            _spriteFrames[_frameNumber+3].enabled = true;
         }
 
         if (_time > 0.15f)

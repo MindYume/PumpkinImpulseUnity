@@ -24,15 +24,13 @@ SOFTWARE.
 
 using UnityEngine;
 
-public class EnemyBat : MonoBehaviour
+public class EnemyGhost : MonoBehaviour
 {
     [SerializeField] private HitEffect _hitEffectPrefab;
     Rigidbody2D _rigidbody2D;
     SpriteRenderer _spriteRenderer;
     private Player _player;
     private float _health = 100;
-    private float _maxSpeed = 1.25f;
-    private float _acceleration = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -50,15 +48,9 @@ public class EnemyBat : MonoBehaviour
         }
         else
         {
-            Vector2 relativePlayerPosition = _player.transform.localPosition - transform.position;
-            float LinearVelocityAtan2 = Mathf.Atan2(_rigidbody2D.velocity.y, _rigidbody2D.velocity.x);
-            float relativePlayerPositionAtan2 = Mathf.Atan2(relativePlayerPosition.y, relativePlayerPosition.x);
-            float directionDifference = LinearVelocityAtan2 - relativePlayerPositionAtan2;
-            if (Mathf.Cos(directionDifference) * _rigidbody2D.velocity.magnitude < _maxSpeed)
-            {
-                Vector3 accelerationDirection = (_player.transform.position-transform.position).normalized*_acceleration * Time.deltaTime;
-                _rigidbody2D.velocity += new Vector2(accelerationDirection.x, accelerationDirection.y);
-            }
+            float distanceToPlayer = (_player.transform.localPosition-transform.localPosition).magnitude;
+            Vector3 accelerationDirection = (_player.transform.localPosition-transform.localPosition).normalized / Mathf.Pow(distanceToPlayer, 2) * 4.5f * Time.deltaTime;
+            _rigidbody2D.velocity += new Vector2(accelerationDirection.x, accelerationDirection.y);
 
             if (_player.transform.position.x > transform.position.x)
             {
@@ -72,7 +64,7 @@ public class EnemyBat : MonoBehaviour
 
         if (transform.localPosition.x < -3 || transform.localPosition.x > 3 || transform.localPosition.y < -3 || transform.localPosition.y > 3)
         {
-            Debug.Log("Bat is out of border");
+            Debug.Log("Ghost is out of border");
             Destroy(gameObject);
         }
     }

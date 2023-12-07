@@ -32,7 +32,7 @@ public class PausePanel : MonoBehaviour
         Time.timeScale = scale;
     }
 
-    public void OnMainMenuButtonClicked(float scale)
+    public void OnMainMenuButtonClicked()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
