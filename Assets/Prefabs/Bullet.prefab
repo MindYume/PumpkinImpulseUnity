@@ -50,6 +50,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffectPrefab: {fileID: 3359302216560752247, guid: 4929d3b1bff93834d803e3cc71767298, type: 3}
+  _circle1: {fileID: 4730226356607449351}
+  _circle2: {fileID: 4384968260764911475}
+  _tail: {fileID: 8058223094360440244}
+  _rigidbody2D: {fileID: 2420962257973176563}
 --- !u!50 &2420962257973176563
 Rigidbody2D:
   serializedVersion: 4

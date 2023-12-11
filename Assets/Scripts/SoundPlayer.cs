@@ -27,7 +27,7 @@ using UnityEngine;
 public class SoundPlayer : MonoBehaviour
 {
     private static AudioSource[] _audioSources;
-    public static AudioClip btn_hover, btn_click, wave, wave_end, hit, take_damage1, take_damage2, take_damage3, game_over;
+    public static AudioClip btn_hover, btn_click, wave, wave_end, hit, take_damage1, take_damage2, take_damage3, game_over, fire;
     
     void Start()
     {
@@ -42,6 +42,7 @@ public class SoundPlayer : MonoBehaviour
         take_damage2 = Resources.Load<AudioClip>("Sounds/take_damage2");
         take_damage3 = Resources.Load<AudioClip>("Sounds/take_damage3");
         game_over = Resources.Load<AudioClip>("Sounds/game_over");
+        fire = Resources.Load<AudioClip>("Sounds/fire");
     }
 
     public static void PlaySound(int audioSourcesIndex, AudioClip audioClip, float volume, float pitch)

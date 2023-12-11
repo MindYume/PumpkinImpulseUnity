@@ -91,7 +91,7 @@ public class EnemyBat : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<Player>().IsInvinvible == false)
 		{
-            other.gameObject.GetComponent<Player>().TakeDamage();
+            other.gameObject.GetComponent<Player>().TakeDamage(0);
             SoundPlayer.PlaySound(2, SoundPlayer.hit, 0.4f, 1.5f);
 
             // Spawn hit effect

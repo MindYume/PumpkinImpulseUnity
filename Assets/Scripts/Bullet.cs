@@ -28,17 +28,15 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private HitEffect _hitEffectPrefab;
-    private LineRenderer _tail;
-    private Rigidbody2D _rigidbody2D;
+    [SerializeField] private SpriteRenderer _circle1;
+    [SerializeField] private SpriteRenderer _circle2;
+    [SerializeField] private LineRenderer _tail;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
     private float _power;
     private bool _isPowerSetDelayed;
+    private string _target = "enemy";
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _tail = GetComponentInChildren<LineRenderer>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-    }
+    public Rigidbody2D GetRigidBody2d => _rigidbody2D;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -64,7 +62,7 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            if (power <= 0)
+            if (power <= 0 || (_target == "player" && power <= 0.3f))
             {
                 Destroy(gameObject);
             }
@@ -77,9 +75,30 @@ public class Bullet : MonoBehaviour
         }
 	}
 
+    public void SetColor(Color bulletColor1, Color bulletColor2, Color tailColor)
+	{
+        _circle1.color = bulletColor1;
+        _circle2.color = bulletColor2;
+        _tail.endColor = tailColor;
+	}
+
+    public void SetTarget(string target)
+	{
+		_target = target;
+		if(target == "enemy")
+		{
+            gameObject.layer = 8;
+		}
+		else if (target == "player")
+		{
+            gameObject.layer = 9;
+		}
+	}
+
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Enemy")
+        
+        if ((_target == "enemy" && other.gameObject.tag == "Enemy") || (_target == "player" && other.gameObject.tag == "Player"))
 		{
             other.gameObject.SendMessage("TakeDamage", _power * 100);
             SoundPlayer.PlaySound(2, SoundPlayer.hit, _power, 2);

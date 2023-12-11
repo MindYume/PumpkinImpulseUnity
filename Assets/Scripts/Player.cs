@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         SoundPlayer.PlaySound(1, SoundPlayer.wave_end, _bulletPower, (0.75f / _bulletPower));
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float _)
     {
         if (!_isInvinvible)
         {

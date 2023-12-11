@@ -24,47 +24,73 @@ SOFTWARE.
 
 using UnityEngine;
 
-public class EnemyGhost : MonoBehaviour
+public class EnemyPumpkin : MonoBehaviour
 {
-    [SerializeField] private HitEffect _hitEffectPrefab;
-    Rigidbody2D _rigidbody2D;
-    SpriteRenderer _spriteRenderer;
+    [SerializeField] private Bullet _bulletPrefab;
+    private Rigidbody2D _rigidbody2D;
     private Player _player;
-    private float _health = 100;
+    private Animator _animator;
+    private float _health = 200;
+    private float _reloadDelay = 1.5f;
+    private float _reloadTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (_player == null)
         {
             _player = GeneralSingleton.Instance.PlayerInstance;
         }
         else
         {
-            float distanceToPlayer = (_player.transform.localPosition-transform.localPosition).magnitude;
-            Vector3 accelerationDirection = (_player.transform.localPosition-transform.localPosition).normalized / Mathf.Pow(distanceToPlayer, 2) * 4.5f * Time.deltaTime;
-            _rigidbody2D.velocity += new Vector2(accelerationDirection.x, accelerationDirection.y);
-
-            if (_player.transform.position.x > transform.position.x)
+            Vector3 relativePlayerPosition = _player.transform.localPosition-transform.localPosition;
+            Vector2 relativePlayerPosition2D = new Vector2(relativePlayerPosition.x, relativePlayerPosition.y);
+            float distanceToPlayer = relativePlayerPosition2D.magnitude;
+            if (distanceToPlayer > 2)
             {
-                _spriteRenderer.flipX = true;
+                _rigidbody2D.velocity += relativePlayerPosition2D * Time.deltaTime;
             }
             else
             {
-                _spriteRenderer.flipX = false;
+                _rigidbody2D.velocity -= relativePlayerPosition2D * Time.deltaTime;
             }
+
+            _reloadTime += Time.deltaTime;
+            if (_reloadTime >= _reloadDelay)
+            {
+                _reloadTime -= _reloadDelay;
+
+                // Spawn bullet
+                Bullet bulletInstance = Instantiate<Bullet>(_bulletPrefab, transform.position, Quaternion.identity);
+                bulletInstance.SetTarget("player");
+                bulletInstance.SetPower(0.7f);
+                bulletInstance.SetColor(new Color(1, 0.78f, 0.4f), new Color(1, 0.5f, 0), new Color(1, 1, 0.78f));
+                bulletInstance.GetRigidBody2d.velocity += relativePlayerPosition2D.normalized * 2.5f;
+
+                // Play sounds
+                float volume = 0.5f + Random.value / 2;
+                float pitch = 0.8f + Random.value / 2.5f;
+                SoundPlayer.PlaySound(5, SoundPlayer.fire, volume, pitch);
+                SoundPlayer.PlaySound(5, SoundPlayer.wave_end, volume, pitch);
+            }
+
+            // Set eyes direction
+            _animator.SetFloat("x", relativePlayerPosition.x);
+            _animator.SetFloat("y", relativePlayerPosition.y);
+
         }
 
         if (transform.localPosition.x < -3 || transform.localPosition.x > 3 || transform.localPosition.y < -3 || transform.localPosition.y > 3)
         {
-            Debug.Log("Ghost is out of border");
+            Debug.Log("Pumpkin is out of border");
             Destroy(gameObject);
         }
     }
@@ -77,30 +103,5 @@ public class EnemyGhost : MonoBehaviour
             //HealthPoint.Spawn(GetParent(), Position, 0.1);
             Destroy(gameObject);
         }
-    }
-
-    private void handleCollison(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<Player>().IsInvinvible == false)
-		{
-            other.gameObject.GetComponent<Player>().TakeDamage(0);
-            SoundPlayer.PlaySound(2, SoundPlayer.hit, 0.4f, 1.5f);
-
-            // Spawn hit effect
-            HitEffect hitEffectInstance = Instantiate(_hitEffectPrefab, (transform.position + other.transform.position) / 2 - new Vector3(0,0,1), Quaternion.identity);
-            hitEffectInstance.transform.localScale = Vector3.one * 0.875f;
-            hitEffectInstance.Color = new Color(0.75f, 1, 1, 1);
-
-            Destroy(gameObject);
-		}
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        handleCollison(other);
-    }
-    void OnCollisionStay2D(Collision2D other)
-    {
-        handleCollison(other);
     }
 }
