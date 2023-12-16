@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using UnityEngine;
 
-public class EnemyBat : MonoBehaviour
+public class EnemyBat : Enemy
 {
     [SerializeField] private HitEffect _hitEffectPrefab;
     Rigidbody2D _rigidbody2D;
@@ -82,7 +83,7 @@ public class EnemyBat : MonoBehaviour
         _health -= damage_value;
         if (_health <= 0)
         {
-            //HealthPoint.Spawn(GetParent(), Position, 0.1);
+            HealthPoint.Spawn(Level.gameObjectStatic, transform.localPosition, 0.1f);
             Destroy(gameObject);
         }
     }

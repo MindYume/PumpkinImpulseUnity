@@ -22,15 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using UnityEngine;
 
-public class EnemyGhost : MonoBehaviour
+public class EnemyGhost : Enemy
 {
     [SerializeField] private HitEffect _hitEffectPrefab;
     Rigidbody2D _rigidbody2D;
     SpriteRenderer _spriteRenderer;
     private Player _player;
     private float _health = 100;
+
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +76,7 @@ public class EnemyGhost : MonoBehaviour
         _health -= damage_value;
         if (_health <= 0)
         {
-            //HealthPoint.Spawn(GetParent(), Position, 0.1);
+            HealthPoint.Spawn(Level.gameObjectStatic, transform.localPosition, 0.3f);
             Destroy(gameObject);
         }
     }

@@ -22,11 +22,67 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PausePanel : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _panelText;
+    [SerializeField] private TextMeshProUGUI _playButtonText;
+    [SerializeField] private TextMeshProUGUI _menuButtonText;
+
+    void Start()
+    {
+        setLanguage(GeneralSingleton.Instance.Language);
+    }
+
+    private void setLanguage(LanguageEnum language)
+    {
+        switch(language)
+		{
+			case LanguageEnum.English:
+                _panelText.font      = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _playButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _menuButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_panelText.text = "Game paused";
+                _playButtonText.text = "Continue";
+                _menuButtonText.text = "Main menu";
+				break;
+            
+            case LanguageEnum.Japanese:
+                _panelText.font      = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansOrange");
+                _playButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+                _menuButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+
+                _panelText.text = "休止";
+                _playButtonText.text = "ゲームを続ける";
+                _menuButtonText.text = "メインメニュー";
+				break;
+			
+			case LanguageEnum.Russian:
+				_panelText.font      = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _playButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _menuButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_panelText.text = "Пауза";
+                _playButtonText.text = "Продолжить";
+                _menuButtonText.text = "Главное меню";
+				break;
+            
+            case LanguageEnum.Turkish:
+                _panelText.font      = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _playButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _menuButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_panelText.text = "Duraklat";
+                _playButtonText.text = "Devam etmek";
+                _menuButtonText.text = "Ana menü";
+				break;
+		}
+    }
+
     public void SetTimeScale(float scale)
     {
         Time.timeScale = scale;

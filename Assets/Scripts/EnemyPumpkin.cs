@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using UnityEngine;
 
-public class EnemyPumpkin : MonoBehaviour
+public class EnemyPumpkin : Enemy
 {
     [SerializeField] private Bullet _bulletPrefab;
     private Rigidbody2D _rigidbody2D;
@@ -76,8 +77,8 @@ public class EnemyPumpkin : MonoBehaviour
                 bulletInstance.GetRigidBody2d.velocity += relativePlayerPosition2D.normalized * 2.5f;
 
                 // Play sounds
-                float volume = 0.5f + Random.value / 2;
-                float pitch = 0.8f + Random.value / 2.5f;
+                float volume = 0.5f + UnityEngine.Random.value / 2;
+                float pitch = 0.8f + UnityEngine.Random.value / 2.5f;
                 SoundPlayer.PlaySound(5, SoundPlayer.fire, volume, pitch);
                 SoundPlayer.PlaySound(5, SoundPlayer.wave_end, volume, pitch);
             }
@@ -100,7 +101,7 @@ public class EnemyPumpkin : MonoBehaviour
         _health -= damage_value;
         if (_health <= 0)
         {
-            //HealthPoint.Spawn(GetParent(), Position, 0.1);
+            HealthPoint.Spawn(Level.gameObjectStatic, transform.localPosition, 0.5f);
             Destroy(gameObject);
         }
     }

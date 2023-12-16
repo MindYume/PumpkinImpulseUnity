@@ -36,6 +36,8 @@ public class MainMenu : MonoBehaviour
     {
         GeneralSingleton.Instance.onLanguageChanged += OnLanguageCahnged;
         OnLanguageCahnged(GeneralSingleton.Instance.Language);
+
+        //Debug.Log($"Main Menu: {Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange")}");
     }
 
     private void OnLanguageCahnged(LanguageEnum language)

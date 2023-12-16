@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -121,6 +120,12 @@ public class Player : MonoBehaviour
         bulletInstance.SetPower(_bulletPower);
 
         SoundPlayer.PlaySound(1, SoundPlayer.wave_end, _bulletPower, (0.75f / _bulletPower));
+    }
+
+    public void TakeHealth()
+    {
+        _health++;
+        onHealthChanged.Invoke(_health);
     }
 
     public void TakeDamage(float _)

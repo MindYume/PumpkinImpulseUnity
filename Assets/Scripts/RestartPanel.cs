@@ -22,14 +22,81 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class RestartPanel : MonoBehaviour
 {
+    [SerializeField] private Level _level;
+    [SerializeField] private TextMeshProUGUI _wavesMaxText;
+    [SerializeField] private TextMeshProUGUI _wavesNowText;
+    [SerializeField] private TextMeshProUGUI _menuButtonText;
+    [SerializeField] private TextMeshProUGUI _againButtonText;
+
+    void Start()
+    {
+        setLanguage(GeneralSingleton.Instance.Language);
+    }
+
+    private void setLanguage(LanguageEnum language)
+    {
+        switch(language)
+		{
+			case LanguageEnum.English:
+                _wavesMaxText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _wavesNowText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _menuButtonText.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _againButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_wavesMaxText.text    = $"Max wave: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+                _wavesNowText.text    = $"Completed waves: <font=\"OpenSansBrightGreen\">{_level.Wave-1}</font>";
+                _menuButtonText.text  = "Menu";
+                _againButtonText.text = "Again";
+				break;
+            
+            case LanguageEnum.Japanese:
+                _wavesMaxText.font    = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansOrange");
+                _wavesNowText.font    = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansOrange");
+                _menuButtonText.font  = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+                _againButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans/NotoSansGreen");
+
+				_wavesMaxText.text    = $"最大ステージ: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+                _wavesNowText.text    = $"完了したステージ: <font=\"OpenSansBrightGreen\">{_level.Wave-1}</font>";
+                _menuButtonText.text  = "メニュー";
+                _againButtonText.text = "再びプレー";
+				break;
+			
+			case LanguageEnum.Russian:
+				_wavesMaxText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _wavesNowText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _menuButtonText.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _againButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_wavesMaxText.text    = $"Максимальная волна: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+                _wavesNowText.text    = $"Пройденые волны: <font=\"OpenSansBrightGreen\">{_level.Wave-1}</font>";
+                _menuButtonText.text  = "Меню";
+                _againButtonText.text = "Играть снова";
+				break;
+            
+            case LanguageEnum.Turkish:
+                _wavesMaxText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _wavesNowText.font    = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansOrange");
+                _menuButtonText.font  = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+                _againButtonText.font = Resources.Load<TMP_FontAsset>("Fonts/OpenSans/OpenSansGreen");
+
+				_wavesMaxText.text    = $"Maks. dalga: <font=\"OpenSansBrightGreen\">{GeneralSingleton.Instance.MaxWave}</font>";
+                _wavesNowText.text    = $"Tamamlanmış dalgalar: <font=\"OpenSansBrightGreen\">{_level.Wave-1}</font>";
+                _menuButtonText.text  = "Menü";
+                _againButtonText.text = "Tekrar";
+				break;
+		}
+    }
+    
     public void Show()
     {
         gameObject.SetActive(true);
+        setLanguage(GeneralSingleton.Instance.Language);
         Time.timeScale = 0;
     }
 

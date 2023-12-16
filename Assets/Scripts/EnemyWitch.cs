@@ -25,7 +25,7 @@ SOFTWARE.
 using System;
 using UnityEngine;
 
-public class EnemyWitch : MonoBehaviour
+public class EnemyWitch : Enemy
 {
     [SerializeField] private Fire _firePrefab;
     [SerializeField] private Bullet _bulletPrefab;
@@ -140,7 +140,7 @@ public class EnemyWitch : MonoBehaviour
         _health -= damage_value;
         if (_health <= 0)
         {
-            //HealthPoint.Spawn(GetParent(), Position, 0.1);
+            HealthPoint.Spawn(Level.gameObjectStatic, transform.localPosition, 0.5f);
             Destroy(gameObject);
         }
     }
