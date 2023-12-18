@@ -56,7 +56,6 @@ public class EnergyEffect : MonoBehaviour
                 
                 if (_playSound)
                 {
-                    //_generalSingleton.PlaySound("wave", (-50 + _circles[i].Scale.x  * _energyValue * 60), 1);
                     SoundPlayer.PlaySound(0, SoundPlayer.wave, _energyValue*2, 1);
                 } 
             }
